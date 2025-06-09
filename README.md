@@ -13,3 +13,18 @@ A modern Android weather app built with **Kotlin**, **Jetpack Compose**, **Corou
 - **Reactive UI**: Powered by Jetpack Compose and `StateFlow`
 
 ---
+
+## 🚀 Tech Stack
+
+| Layer            | Tools & Libraries |
+|------------------|-------------------|
+| **UI**           | Jetpack Compose |
+| **State Management** | Kotlin Coroutines & StateFlow |
+| **Networking**   | Retrofit + GSON |
+| **Location**     | Android Geocoder (API 33+) & Google Geocoding API |
+| **Dependency Injection** | Hilt |
+| **Architecture** | MVVM |
+| **Other**        | Shared `WeatherState`, Location permissions handling |
+
+---
+
