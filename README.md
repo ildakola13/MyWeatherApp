@@ -20,11 +20,10 @@ A modern Android weather app built with **Kotlin**, **Jetpack Compose**, **Corou
 |------------------|-------------------|
 | **UI**           | Jetpack Compose |
 | **State Management** | Kotlin Coroutines & StateFlow |
-| **Networking**   | Retrofit + GSON |
-| **Location**     | Android Geocoder (API 33+) & Google Geocoding API |
+| **Networking**   | Retrofit |
+| **Location**     | Android Geocoder|
 | **Dependency Injection** | Hilt |
 | **Architecture** | MVVM |
-| **Other**        | Shared `WeatherState`, Location permissions handling |
 
 ---
 
