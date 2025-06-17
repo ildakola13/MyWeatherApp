@@ -24,10 +24,10 @@ import com.example.myweatherapp.domain.locationModel.City
 @Composable
 fun LocationCard(
     city: City,
-    viewModel: WeatherViewModel,
     backgroundColor: Color,
     textColor: Color = Color.White,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    setSearchingCallback:(Boolean) -> Unit
 ) {
     Card(
         colors = CardColors(
@@ -56,7 +56,7 @@ fun LocationCard(
                 modifier = Modifier
                     .size(20.dp)
                     .clickable {
-                        viewModel.setSearching(true)
+                        setSearchingCallback(true)
                     }
             )
 

@@ -68,7 +68,13 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .background(DarkBlue)
                     ) {
-                        WeatherScreen(viewModel, state, city, innerPadding)
+                        WeatherScreen(
+                            state = state,
+                            city = city,
+                            innerPadding = innerPadding
+                        ){
+                            viewModel.setSearching(it)
+                        }
 
                         if (state.isLoading) {
                             CircularProgressIndicator(
@@ -77,7 +83,8 @@ class MainActivity : ComponentActivity() {
                         }
                         if (state.isSearching) {
                             SearchLocation(
-                                viewModel, innerPadding,
+                                viewModel,
+                                innerPadding,
                                 backgroundColor = DarkBlue,
                                 textColor = Color.White
                             )
@@ -101,10 +108,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun WeatherScreen(
-    viewModel: WeatherViewModel,
     state: WeatherState,
     city: City,
-    innerPadding: PaddingValues
+    innerPadding: PaddingValues,
+    setSearchingCallback:(Boolean) -> Unit
 ) {
 
     LazyColumn(
@@ -118,9 +125,10 @@ fun WeatherScreen(
         item {
             LocationCard(
                 city = city,
-                viewModel = viewModel,
                 backgroundColor = DeepBlue
-            )
+            ) {
+                setSearchingCallback(it)
+            }
         }
         item {
             WeatherCard(
