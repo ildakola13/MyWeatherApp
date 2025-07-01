@@ -26,7 +26,6 @@ import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myweatherapp.R
-import com.example.myweatherapp.domain.locationModel.City
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
@@ -34,18 +33,16 @@ import kotlin.math.roundToInt
 @Composable
 fun WeatherCard(
     state: WeatherState,
-    city: City,
     backgroundColor: Color,
-    contentColor: Color = Color.Red,
-    disabledColor: Color = Color.Blue,
+    iconTint: Color = Color.White,
     modifier: Modifier = Modifier
 ) {
     state.weatherInfo?.currentWeatherData?.let { weatherData ->
         Card(
             colors = CardColors(
                 containerColor = backgroundColor,
-                contentColor = contentColor,
-                disabledContentColor = disabledColor,
+                contentColor = backgroundColor,
+                disabledContentColor = backgroundColor,
                 disabledContainerColor = backgroundColor
             ),
             shape = RoundedCornerShape(10.dp),
@@ -88,7 +85,7 @@ fun WeatherCard(
                         value = weatherData.pressure.roundToInt(),
                         unit = "hpa",
                         icon = ImageVector.vectorResource(id = R.drawable.ic_pressure),
-                        iconTint = Color.White,
+                        iconTint = iconTint,
                         textStyle = TextStyle(color = Color.White)
                     )
 

@@ -12,6 +12,12 @@ retrofitVersion = "2.9.0"
 hilt = "2.56.2"
 gson = "2.10.1"
 moshi = "2.9.0"
+coroutineTest = "1.8.1"
+mokitoCore = "5.14.2"
+mokitoKotlin = "5.0.0"
+mock = "1.13.5"
+koin = "3.4.2"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +44,11 @@ hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt"
 hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
 gson = { module = " com.google.code.gson:gson", version.ref = "gson"}
 
+coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutineTest"}
+mokito-core = { module = "org.mockito:mockito-core", version.ref = "mokitoCore"}
+mokito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mokitoKotlin"}
+mock = { module = "io.mockk:mockk", version.ref = "mock"}
+koin = { module = "io.insert-koin:koin-test", version.ref = "koin"}
 
 [bundles]
 retrofit = [
@@ -49,6 +60,13 @@ retrofit = [
 playservices = [
     "playservices-location",
     "playservices-maps",
+]
+test = [
+    "coroutines-test",
+    "mokito-core",
+    "mokito-kotlin",
+    "mock",
+    "koin"
 ]
 
 [plugins]

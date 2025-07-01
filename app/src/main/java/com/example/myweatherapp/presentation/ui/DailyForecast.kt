@@ -37,9 +37,7 @@ fun DailyForecast(
                 verticalArrangement = Arrangement.spacedBy(24.dp),
                 content = {
                     items(items = weatherData) {data ->
-                        DailyWeatherItem(
-                            dailyWeatherData = data
-                        )
+                        DailyWeatherItem(dailyWeatherData = data)
                     }
                 }
             )

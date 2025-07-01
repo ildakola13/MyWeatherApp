@@ -72,7 +72,7 @@ class MainActivity : ComponentActivity() {
                             state = state,
                             city = city,
                             innerPadding = innerPadding
-                        ){
+                        ) {
                             viewModel.setSearching(it)
                         }
 
@@ -82,12 +82,19 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         if (state.isSearching) {
+                            val searchState by viewModel.searchState.collectAsState()
                             SearchLocation(
-                                viewModel,
-                                innerPadding,
-                                backgroundColor = DarkBlue,
-                                textColor = Color.White
-                            )
+                                innerPadding = innerPadding,
+                                style = Style(),
+                                onSearchValueChange = viewModel::onSearchTextChange,
+                                searchState = searchState,
+                                setSearching = {
+                                    viewModel.setSearching(it)
+                                },
+                                selectLocationListener = {
+                                    viewModel.selectLocation(it)
+                                }
+                                )
                         }
                         state.error?.let { error ->
                             Text(
@@ -111,7 +118,7 @@ fun WeatherScreen(
     state: WeatherState,
     city: City,
     innerPadding: PaddingValues,
-    setSearchingCallback:(Boolean) -> Unit
+    setSearchingCallback: (Boolean) -> Unit
 ) {
 
     LazyColumn(
@@ -133,7 +140,6 @@ fun WeatherScreen(
         item {
             WeatherCard(
                 state = state,
-                city = city,
                 backgroundColor = DeepBlue
             )
         }

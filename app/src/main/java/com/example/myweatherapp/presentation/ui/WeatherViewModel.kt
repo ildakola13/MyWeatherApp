@@ -33,7 +33,6 @@ class WeatherViewModel @Inject constructor(
     private val _isSearchingLocation = MutableStateFlow(false)
 
     private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
 
     private val _searchText = MutableStateFlow("")
     val searchText = _searchText.asStateFlow()
@@ -123,6 +122,16 @@ class WeatherViewModel @Inject constructor(
         setLocationCity(city)
     }
 
+    fun selectLocation(city: City? = null) {
+        city?.let {
+            selectNewLocation(city)
+        } ?: {
+            selectCurrentLocation()
+        }
+    }
+
+
+
     @OptIn(ExperimentalCoroutinesApi::class)
     val cities = searchText
         .debounce(1000L)
@@ -145,6 +154,18 @@ class WeatherViewModel @Inject constructor(
             SharingStarted.WhileSubscribed(5000),
             _cities.value
         )
+
+    val searchState: StateFlow<SearchState> = combine(
+        _searchText,
+        cities,
+        _isSearching
+    ) { searchText, cities, isSearching ->
+        SearchState(
+            searchText,
+            cities,
+            isSearching
+        )
+    }.stateIn(viewModelScope,  SharingStarted.WhileSubscribed(5000), SearchState())
 
     fun onSearchTextChange(text: String) {
         _searchText.value = text

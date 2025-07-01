@@ -1,6 +1,5 @@
 package com.example.myweatherapp.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -26,31 +25,32 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.myweatherapp.domain.locationModel.City
 
 
 @Composable
 fun SearchLocation(
-    viewModel: WeatherViewModel,
     innerPadding: PaddingValues,
-    backgroundColor: Color,
-    textColor: Color = Color.White,
-    modifier: Modifier = Modifier
+    style: Style,
+    modifier: Modifier = Modifier,
+    onSearchValueChange: (String) -> Unit,
+    searchState: SearchState,
+    setSearching: (Boolean) -> Unit,
+    selectLocationListener:(City?) -> Unit
 ) {
-    val searchText by viewModel.searchText.collectAsState()
-    val cities by viewModel.cities.collectAsState()
-    val isSearching by viewModel.isSearching.collectAsState()
+    val searchText = searchState.searchText
+    val citiesList = searchState.citiesList
+    val isSearching = searchState.isSearching
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(backgroundColor)
+            .background(style.backgroundColor)
             .padding(
                 top = innerPadding.calculateTopPadding(),
                 bottom = innerPadding.calculateBottomPadding(),
@@ -68,8 +68,7 @@ fun SearchLocation(
                 tint = Color.White,
                 modifier = modifier.size(20.dp)
                     .clickable{
-                        Log.d("SEARCH", "Back button click")
-                        viewModel.setSearching(false)
+                        setSearching(false)
                     }
             )
 
@@ -78,14 +77,14 @@ fun SearchLocation(
             OutlinedTextField(
                 value = searchText,
                 shape = RoundedCornerShape(10.dp),
-                onValueChange = viewModel::onSearchTextChange,
+                onValueChange = onSearchValueChange,
                 label = { Text("Search", color = Color.White) },
                 modifier = modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = textColor,
-                    unfocusedTextColor = textColor,
-                    cursorColor = textColor,
-                    focusedLabelColor = textColor,
+                    focusedTextColor = style.textColor,
+                    unfocusedTextColor = style.textColor,
+                    cursorColor = style.textColor,
+                    focusedLabelColor = style.textColor,
                     unfocusedLabelColor = Color.LightGray
                 )
             )
@@ -97,7 +96,7 @@ fun SearchLocation(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier.fillMaxWidth()
                 .clickable {
-                    viewModel.selectCurrentLocation()
+                    selectLocationListener(null)
                 }
         ) {
             Icon(
@@ -110,7 +109,7 @@ fun SearchLocation(
             Spacer(modifier = modifier.width(4.dp))
             Text(
                 text = "Current Location",
-                color = textColor,
+                color = style.textColor,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = modifier
@@ -130,18 +129,18 @@ fun SearchLocation(
                     .fillMaxWidth()
                     .weight(1f)
             ) {
-                items(items = cities) { city ->
+                items(items = citiesList) { city ->
                     Column(
                         modifier = modifier
                             .fillMaxSize()
                             .padding(16.dp,)
                             .clickable {
-                                viewModel.selectNewLocation(city)
+                                selectLocationListener(city)
                             }
                     ) {
                         Text(
                             text = city.name,
-                            color = textColor,
+                            color = style.textColor,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             modifier = modifier.fillMaxWidth()
@@ -149,7 +148,7 @@ fun SearchLocation(
                         Spacer(modifier = modifier.height(2.dp))
                         Text(
                             text = city.country,
-                            color = textColor,
+                            color = style.textColor,
                             fontSize = 10.sp,
                             fontWeight = FontWeight.Thin,
                             modifier = modifier.fillMaxWidth()
